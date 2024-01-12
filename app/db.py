@@ -3,10 +3,10 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 # データベースの設定
-DB_USER = 'user1'
-DB_PASSWORD = 'user1'
+DB_USER = 'sikaku1'
+DB_PASSWORD = 'Shikaku1'
 DB_HOST = '192.168.54.231'
-DB_NAME = 'shop1'
+DB_NAME = 'sikaku1'
 
 SQLALCHEMY_DATABASE_URL = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"
 
