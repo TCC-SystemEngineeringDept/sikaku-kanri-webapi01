@@ -11,7 +11,7 @@ RUN pip install fastapi uvicorn mysql-connector-python jinja2 httpx sqlalchemy p
 WORKDIR /app
 
 # GitHubからソースコードをクローン
-RUN git clone https://github.com/yoshzawa/sikaku-kanri-webapi.git .
+RUN git clone https://github.com/TCC-SystemEngineeringDept/sikaku-kanri-webapi01.git .
 
 # 設定ファイルからMySQL接続情報をコピー
 COPY config.json /app/config.json
