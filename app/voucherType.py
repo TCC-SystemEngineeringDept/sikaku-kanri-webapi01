@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from sqlalchemy.orm import Session
-from db import SessionLocal, VoucherType
+from db import SessionLocal, VoucherType,db
+
+app = FastAPI()
 
 # 商品リストのデータ
 voucherTypes = [
@@ -10,7 +12,7 @@ voucherTypes = [
 
 @app.get("/list")
 def get_voucher_type_list(token:str):
-    vname = db.query(db.VoucherType).all()
+    vname = db.query(VoucherType).all()
     return vname
 
 @app.get("/{ID}")
