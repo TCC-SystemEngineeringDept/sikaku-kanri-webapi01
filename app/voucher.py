@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+import voucherType
 
 app = FastAPI()
 
@@ -14,12 +15,14 @@ def get_voucher_list(token:str):
 
 @app.get("/{ID}")
 def get_voucher_item(ID:str,token:str):
+    
     if ID == "FESG":
         return vouchers[0]
     elif ID == "OR00":
         return vouchers[1]
     else:
         return {}
+    
 
 @app.post("/add")
 def add_voucher_item(ID:str,DATE:str,token:str):
