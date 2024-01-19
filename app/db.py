@@ -33,24 +33,28 @@ class Exam(Base):
 
 class Sikaku(Base):
     __tablename__ = "sikaku"
-    exam_id = Column(String(255), primary_key=True, foreigin_key=True)
-    user_id = Column(String(255), primary_key=True, foreigin_key=True)
+    exam_id = Column(String(255), primary_key=True)
+    user_id = Column(String(255), primary_key=True)
     passed_date = Column(DateTime)
+    fexam_id=Column(String, ForeignKey("exam.exam_id"))
+    fuser_id=Column(String, ForeignKey("user.user_id"))
 
 class Voucher(Base):
     __tablename__ = "voucher"
-    voucher_id = Column(String(255), primary_key=True, foreigin_key=True)
-    user_id = Column(String(255), primary_key=True, foreigin_key=True)
+    voucher_id = Column(String(255), primary_key=True)
+    user_id    = Column(String(255), primary_key=True)
     limit_date = Column(DateTime)
+    fvoucher_id= Column(String, ForeignKey("voucherType.voucher_id"))
+    fuser_id2  = Column(String, ForeignKey("user.user_id"))
 
 class VoucherType(Base):
     __tablename__ = "voucherType"
-    voucher_id = Column(String(255), primary_key=True)
+    voucher_id   = Column(String(255), primary_key=True)
     voucher_name = Column(String(255))
 
 class User(Base):
     __tablename__ = "user"
-    user_id = Column(String(255), primary_key=True)
+    user_id   = Column(String(255), primary_key=True)
     user_name = Column(String(255))
 # テーブルが存在しない場合は作成する
 Base.metadata.create_all(bind=engine)
