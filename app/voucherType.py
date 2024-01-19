@@ -18,12 +18,12 @@ voucherTypes = [
 ]
 
 @app.get("/list")
-def get_voucher_type_list(token:str):
+def get_voucher_type_list(token:str,db: Session = Depends(get_db)):
     vname = db.query(VoucherType).all()
     return vname
 
 @app.get("/{ID}")
-def get_voucher_type_item(ID:str,token:str):
+def get_voucher_type_item(ID:str,token:str,db: Session = Depends(get_db)):
     if ID == "FESG":
         return voucherTypes[0]
     elif ID == "OR00":
