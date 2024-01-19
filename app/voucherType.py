@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+import db
 
 app = FastAPI()
 
@@ -20,6 +21,17 @@ def get_voucher_type_item(ID:str,token:str):
         return voucherTypes[1]
     else:
         return {}
+
+@app.get("/{NAME}")
+def get_voucher_type_item(NAME:str,token:str):
+    vname = db.query(db.VoucherType.voucher_name).all()
+    if vname == "FE/SG受験バウチャー":
+        return vname[0]
+    elif vname == "Oracle認定資格ピアソンVUE 配信監督なし試験用":
+        return vname[1]
+    else:
+        return{}  
+
 
 @app.post("/add")
 def get_voucherType_item(ID:str,NAME:str,token:str):
