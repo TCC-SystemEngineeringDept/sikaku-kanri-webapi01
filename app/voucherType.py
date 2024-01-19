@@ -1,7 +1,6 @@
 from fastapi import FastAPI
-import db
-
-app = FastAPI()
+from sqlalchemy.orm import Session
+from db import SessionLocal, VoucherType
 
 # 商品リストのデータ
 voucherTypes = [
@@ -25,11 +24,13 @@ def get_voucher_type_item(ID:str,token:str):
 
 @app.post("/add")
 def get_voucherType_item(ID:str,NAME:str,token:str):
+    new_item = VoucherType(voucher_id=ID,voucher_name=NAME)
     if(ID == None or NAME == None):
         return {"message": "voucherType was not added successfully", "voucherType": {}}
     else:
-        db.VoucherType.voucher_id.add(ID)
-        db.VoucherType.voucher_name.add(NAME)
-        return{"追加処理成功!!!!!":(ID,NAME)}
+        db.add(new_item)
+        db.commit()
+        db.refresh(new_item)
+        return{"追加処理成功!!!!!": new_item}
     
 	
