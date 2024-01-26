@@ -1,4 +1,6 @@
+from fastapi import FastAPI,Depends
 from fastapi import FastAPI
+from db import SessionLocal, Exam
 
 app = FastAPI()
 
@@ -10,7 +12,8 @@ Exams = [
 
 @app.get("/list")
 def get_exam_list(token:str):
-    return Exams
+    ename = db.query(Exam).all()
+    return ename
 
 @app.get("/{ID}")
 def get_exam_item(ID:str,token:str):
