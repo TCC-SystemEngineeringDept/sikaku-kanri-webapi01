@@ -25,13 +25,20 @@ def get_exam_list(token:str,db: Session = Depends(get_db)):
 @app.get("/{ID}")
 def get_exam_item(ID:str,token:str,db: Session = Depends(get_db)):
     exam_info = db.query(Exam).get(ID)
-    return exam_info
+    if(exam_info is None):
+        return exam_info
+    else:
+        return {}
+    
+    
+
+    
 
 
 @app.post("/add")
 def add_exam_item(ID:str,NAME:str,token:str,db: Session = Depends(get_db)):
     new_item = Exam(exam_id=ID,exam_name=NAME)
-    if(ID == None or NAME == None):
+    if(ID is None or NAME is None):
         return {"message": "Exam added successfully", "exam": {"ID": "FE00", "NAME": "基本情報技術者試験"}}
     else:
         db.add(new_item)
