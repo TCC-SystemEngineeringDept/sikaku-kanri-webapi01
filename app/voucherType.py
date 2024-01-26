@@ -24,12 +24,8 @@ def get_voucher_type_list(token:str,db: Session = Depends(get_db)):
 
 @app.get("/{ID}")
 def get_voucher_type_item(ID:str,token:str,db: Session = Depends(get_db)):
-    if ID == "FESG":
-        return voucherTypes[0]
-    elif ID == "OR00":
-        return voucherTypes[1]
-    else:
-        return {}
+    Voucher_Info = db.query(VoucherType).get(ID)
+    return Voucher_Info
 
 @app.post("/add")
 def get_voucherType_item(ID:str,NAME:str,token:str, db: Session = Depends(get_db)):
