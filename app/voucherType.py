@@ -25,12 +25,15 @@ def get_voucher_type_list(token:str,db: Session = Depends(get_db)):
 @app.get("/{ID}")
 def get_voucher_type_item(ID:str,token:str,db: Session = Depends(get_db)):
     Voucher_Info = db.query(VoucherType).get(ID)
-    return Voucher_Info
+    if(Voucher_Info is None):
+        return{}
+    else:
+        return Voucher_Info
 
 @app.post("/add")
 def get_voucherType_item(ID:str,NAME:str,token:str, db: Session = Depends(get_db)):
     new_item = VoucherType(voucher_id=ID,voucher_name=NAME)
-    if(ID == None or NAME == None):
+    if(ID is None or NAME is None):
         return {"message": "voucherType was not added successfully", "voucherType": {}}
     else:
         db.add(new_item)
