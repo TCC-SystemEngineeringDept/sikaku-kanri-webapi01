@@ -24,12 +24,9 @@ def get_exam_list(token:str,db: Session = Depends(get_db)):
 
 @app.get("/{ID}")
 def get_exam_item(ID:str,token:str,db: Session = Depends(get_db)):
-    if ID == "FE00":
-        return Exams[0]
-    elif ID == "OR00":
-        return Exams[1]
-    else:
-        return {}
+    exam_info = db.query(Exam).get(ID)
+    return exam_info
+
 
 @app.post("/add")
 def add_exam_item(ID:str,NAME:str,token:str,db: Session = Depends(get_db)):
