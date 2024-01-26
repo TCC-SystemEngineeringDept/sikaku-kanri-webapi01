@@ -26,9 +26,9 @@ def get_exam_list(token:str,db: Session = Depends(get_db)):
 def get_exam_item(ID:str,token:str,db: Session = Depends(get_db)):
     exam_info = db.query(Exam).get(ID)
     if(exam_info is None):
-        return exam_info
-    else:
         return {}
+    else:
+        return exam_info
     
     
 
