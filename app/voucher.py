@@ -2,7 +2,7 @@ from fastapi import FastAPI,Depends
 import datetime
 import voucherType
 from sqlalchemy.orm import Session
-from db import SessionLocal, VoucherType
+from db import SessionLocal, Voucher
 
 app = FastAPI()
 
@@ -35,10 +35,10 @@ def get_voucher_item(ID:str,token:str,db: Session = Depends(get_db)):
     
 
 @app.post("/add")
-def add_voucher_item(ID:str,DATE:str,token:str,db: Session = Depends(get_db)):
+def add_voucher_item(USER_ID:str, VOUCHER_ID: str,DATE:str,token:str,db: Session = Depends(get_db)):
     DATE = datetime.datetime.strptime(DATE, "%Y-%m-%d")
-    new_items = vouchers(voucher_id=ID,limit_date=DATE)
-    if(ID is None or DATE is None):
+    new_items = Voucher(voucher_id=VOUCHER_ID, user_id=USER_ID, limit_date=DATE)
+    if(VOUCHER_ID is None or USER_ID is None or DATE is None):
         #kuuhakutoosanaisyorituika
         return {"message": "voucherType was not added successfully", "voucher":  {{"ID": "FESG" , "DATE": "2024/06/20"}}}
     else:
