@@ -24,7 +24,7 @@ def get_voucher_type_list(token:str,db: Session = Depends(get_db)):
 
 @app.get("/{ID}")
 def get_voucher_type_item(ID:str,token:str,db: Session = Depends(get_db)):
-    Voucher_Info = Session.query(VoucherType).get(ID)
+    Voucher_Info = db.query(VoucherType).get(ID)
     return Voucher_Info
 
 @app.post("/add")
