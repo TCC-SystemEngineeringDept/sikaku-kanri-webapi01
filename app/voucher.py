@@ -1,7 +1,17 @@
 from fastapi import FastAPI
+import datetime
 import voucherType
+from sqlalchemy.orm import Session
+from db import SessionLocal, VoucherType
 
 app = FastAPI()
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 # 商品リストのデータ
 vouchers = [
@@ -10,11 +20,11 @@ vouchers = [
 ]
 
 @app.get("/list")
-def get_voucher_list(token:str):
+def get_voucher_list(token:str,db: Session = Depends(get_db)):
     return vouchers
 
 @app.get("/{ID}")
-def get_voucher_item(ID:str,token:str):
+def get_voucher_item(ID:str,token:str,db: Session = Depends(get_db)):
     
     if ID == "FESG":
         return vouchers[0]
@@ -25,6 +35,15 @@ def get_voucher_item(ID:str,token:str):
     
 
 @app.post("/add")
-def add_voucher_item(ID:str,DATE:str,token:str):
-    return {"message": "voucher was added successfully", "voucher": {{"ID": "FESG" , "DATE": "2024/06/20"}}}
+def add_voucher_item(ID:str,DATE:str,token:str,db: Session = Depends(get_db)):
+    DATE = datetime.datetime.strptime(DATE, "%Y-%m-%d")
+    new_items = vouchers(voucher_id=ID,limit_date=DATE)
+    if(ID is None or DATE is None):
+        #kuuhakutoosanaisyorituika
+        return {"message": "voucherType was not added successfully", "voucher":  {{"ID": "FESG" , "DATE": "2024/06/20"}}}
+    else:
+        db.add(new_items)
+        db.commit()
+        db.refresh(new_items)
+        return{"追加処理成功!!!!!": new_items}
 	
