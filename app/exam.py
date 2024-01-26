@@ -24,7 +24,7 @@ def get_exam_list(token:str,db: Session = Depends(get_db)):
 
 @app.get("/{ID}")
 def get_exam_item(ID:str,token:str,db: Session = Depends(get_db)):
-    exam_info = Session.query(Exam).get(ID)
+    exam_info = db.query(Exam).get(ID)
     return exam_info
 
 
