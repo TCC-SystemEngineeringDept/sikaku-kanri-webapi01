@@ -34,6 +34,7 @@ def get_voucher_type_item(ID:str,token:str,db: Session = Depends(get_db)):
 def get_voucherType_item(ID:str,NAME:str,token:str, db: Session = Depends(get_db)):
     new_item = VoucherType(voucher_id=ID,voucher_name=NAME)
     if(ID is None or NAME is None):
+        #kuuhakutoosanaisyorituika
         return {"message": "voucherType was not added successfully", "voucherType": {}}
     else:
         db.add(new_item)
