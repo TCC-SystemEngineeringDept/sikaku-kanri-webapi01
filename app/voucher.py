@@ -36,7 +36,8 @@ def get_voucher_item(ID:str,token:str,db: Session = Depends(get_db)):
     if len(joined_table) == 0:
         return {}
     else:
-        return {"ID": joined_table.voucher_id, "NAME": joined_table.voucher_name, "DATE": f"{joined_table.limit_date:%Y/%m/%d}"}
+        jt = joined_table
+        return {"ID": jt[0].voucher_id, "NAME": jt[0].voucher_name, "DATE": f"{jt[0].limit_date:%Y/%m/%d}"}
     
 @app.post("/add")
 def add_voucher_item(ID: str,DATE:str,token:str,db: Session = Depends(get_db)):
