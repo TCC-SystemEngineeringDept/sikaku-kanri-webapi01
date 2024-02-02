@@ -21,8 +21,13 @@ def get_db():
 @app.get("/list")
 def get_passed_list(token:str, db: Session = Depends(get_db)):
     joined_table = db.query(Sikaku, Sikaku.exam_id, Exam.exam_name, Sikaku.passed_date).join(Exam, Sikaku.exam_id == Exam.exam_id).all()
-    print(joined_table, type(joined_table))
-    return {}
+    
+    # 返却用のリストに変換して返却
+    return_list = []
+    for r in joined_table:
+        return_list.append({"ID": r.exam_id, "NAME": r.exam_name, "DATE": r.passed_date})
+    
+    return return_list
 
 @app.get("/{ID}")
 def get_passed_item(ID:str,token:str, db: Session = Depends(get_db)):
