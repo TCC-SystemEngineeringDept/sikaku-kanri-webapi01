@@ -31,12 +31,17 @@ def get_passed_list(token:str, db: Session = Depends(get_db)):
 
 @app.get("/{ID}")
 def get_passed_item(ID:str,token:str, db: Session = Depends(get_db)):
-    if ID == "FE00":
-        return Passed[0]
-    elif ID == "OR00":
-        return Passed[1]
-    else:
+    joined_table = db.query(Sikaku, Sikaku.exam_id, Exam.exam_name, Sikaku.passed_date).join(Exam, Sikaku.exam_id == Exam.exam_id).filter(Sikaku.exam_id == ID).all()
+
+    if len(joined_table) == 0:
         return {}
+    else:
+        # 返却用のリストに変換して返却
+        return_list = []
+        for r in joined_table:
+            return_list.append({"ID": r.exam_id, "NAME": r.exam_name, "DATE": f"{r.passed_date:%Y/%m/%d}"})
+        return return_list
+
 
 @app.post("/add")
 def add_passed_item(ID:str, DATE:str, token:str, db: Session = Depends(get_db)):
