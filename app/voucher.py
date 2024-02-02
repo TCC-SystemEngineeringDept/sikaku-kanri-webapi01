@@ -21,7 +21,7 @@ vouchers = [
 
 @app.get("/list")
 def get_voucher_list(token:str,db: Session = Depends(get_db)):
-    vouchers = db.query(Voucher, Voucher.voucher_id, VoucherType.voucher_name, Voucher.limit_date).join(VoucherType,Voucher.voucher_id == VoucherType.voucher_id)
+    vouchers = db.query(Voucher, Voucher.voucher_id, VoucherType.voucher_name, Voucher.limit_date).join(VoucherType,Voucher.voucher_id == VoucherType.voucher_id).all()
     return vouchers
 
 @app.get("/{ID}")
