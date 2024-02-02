@@ -34,7 +34,7 @@ def get_voucher_type_list(token:str,db: Session = Depends(get_db)):
 @app.get("/{ID}")
 def get_voucher_type_item(ID:str,token:str,db: Session = Depends(get_db)):
     voucher_info = db.query(VoucherType).get(ID)
-    if len(voucher_info) == 0:
+    if voucher_info is None:
         return {}
     else:
         return {"ID": voucher_info.voucher_id, "NAME": voucher_info.voucher_name}
