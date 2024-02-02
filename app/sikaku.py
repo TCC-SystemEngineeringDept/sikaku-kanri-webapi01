@@ -24,7 +24,9 @@ def get_passed_list(token:str, db: Session = Depends(get_db)):
     return joined_table
 
 @app.get("/{ID}")
-def get_passed_item(ID:str,token:str):
+def get_passed_item(ID:str,token:str, db: Session = Depends(get_db)):
+    fetched_item = db.query(Sikaku, Sikaku.exam_id, Exam.exam_name, Sikaku.passed_date).join(Exam, Sikaku.exam_id == Exam.exam_id).filter()
+    
     if ID == "FE00":
         return Passed[0]
     elif ID == "OR00":
