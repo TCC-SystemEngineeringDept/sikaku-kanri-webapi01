@@ -27,17 +27,16 @@ def get_voucher_list(token:str,db: Session = Depends(get_db)):
     return_list = []
     for r in joined_table:
         return_list.append({"ID": r.voucher_id, "NAME": r.voucher_name, "DATE": f"{r.limit_date:%Y/%m/%d}"})
-    
     return return_list
 
 @app.get("/{ID}")
 def get_voucher_item(ID:str,token:str,db: Session = Depends(get_db)):
-    if ID == "FESG":
-        return vouchers[0]
-    elif ID == "OR00":
-        return vouchers[1]
-    else:
+    joined_table = db.query(Voucher, Voucher.voucher_id, VoucherType.voucher_name, Voucher.limit_date).join(VoucherType, Voucher.voucher_id == VoucherType.voucher_id).filter(Voucher.voucher_id == ID).all()
+
+    if len(joined_table) == 0:
         return {}
+    else:
+        return {"ID": joined_table.voucher_id, "NAME": joined_table.voucher_name, "DATE": f"{joined_table.limit_date:%Y/%m/%d}"}
     
 @app.post("/add")
 def add_voucher_item(ID: str,DATE:str,token:str,db: Session = Depends(get_db)):
