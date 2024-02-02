@@ -38,7 +38,8 @@ def get_passed_item(ID:str,token:str, db: Session = Depends(get_db)):
     if len(joined_table) == 0:
         return {}
     else:
-        return {"ID": joined_table.exam_id, "NAME": joined_table.exam_name, "DATE": f"{joined_table.passed_date:%Y/%m/%d}"}
+        jt = joined_table
+        return {"ID": jt[0].exam_id, "NAME": jt[0].exam_name, "DATE": f"{jt[0].passed_date:%Y/%m/%d}"}
 
 
 @app.post("/add")
