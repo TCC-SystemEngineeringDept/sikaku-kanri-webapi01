@@ -20,7 +20,16 @@ Exams = [
 @app.get("/list")
 def get_exam_list(token:str,db: Session = Depends(get_db)):
     ename = db.query(Exam).all()
-    return ename
+
+    if len(ename) == 0:
+        return {}
+
+    # 返却用のリストに変換して返却
+    return_list = []
+    for r in ename:
+        return_list.append({"ID": r.exam_id, "NAME": r.exam_name})
+
+    return return_list
 
 @app.get("/{ID}")
 def get_exam_item(ID:str,token:str,db: Session = Depends(get_db)):
@@ -28,7 +37,7 @@ def get_exam_item(ID:str,token:str,db: Session = Depends(get_db)):
     if(exam_info is None):
         return {}
     else:
-        return exam_info
+        return {"ID": exam_info.exam_id, "NAME": exam_info.exam_name}
     
     
 
