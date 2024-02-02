@@ -2,7 +2,7 @@ from fastapi import FastAPI,Depends
 import datetime
 import voucherType
 from sqlalchemy.orm import Session
-from db import SessionLocal, Voucher
+from db import SessionLocal, Voucher,VoucherType
 
 app = FastAPI()
 
@@ -21,6 +21,7 @@ vouchers = [
 
 @app.get("/list")
 def get_voucher_list(token:str,db: Session = Depends(get_db)):
+    vouchers = Session.query(Voucher, Voucher.voucher_id, VoucherType.voucher_name, Voucher.limit_date).join(VoucherType,Voucher.voucher_id == VoucherType.voucher_id)
     return vouchers
 
 @app.get("/{ID}")
