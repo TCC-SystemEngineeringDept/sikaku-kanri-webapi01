@@ -21,8 +21,14 @@ vouchers = [
 
 @app.get("/list")
 def get_voucher_list(token:str,db: Session = Depends(get_db)):
-    vouchers = db.query(Voucher, Voucher.voucher_id, VoucherType.voucher_name, Voucher.limit_date).join(VoucherType,Voucher.voucher_id == VoucherType.voucher_id).all()
-    return vouchers
+    joined_table = db.query(Voucher, Voucher.voucher_id, VoucherType.voucher_name, Voucher.limit_date).join(VoucherType,Voucher.voucher_id == VoucherType.voucher_id).all()
+    
+    # 返却用のリストに変換して返却
+    return_list = []
+    for r in joined_table:
+        return_list.append({"ID": r.voucher_id, "NAME": r.voucher_name, "DATE": f"{r.limit_date:%Y/%m/%d}"})
+    
+    return return_list
 
 @app.get("/{ID}")
 def get_voucher_item(ID:str,token:str,db: Session = Depends(get_db)):
