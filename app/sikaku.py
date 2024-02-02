@@ -1,7 +1,7 @@
 import datetime
 from fastapi import FastAPI,Depends
 from sqlalchemy.orm import Session
-from db import SessionLocal, Sikaku
+from db import SessionLocal, Sikaku, Exam
 
 app = FastAPI()
 
@@ -19,8 +19,9 @@ def get_db():
         db.close()
 
 @app.get("/list")
-def get_passed_list(token:str):
-    return Passed
+def get_passed_list(token:str, db: Session = Depends(get_db)):
+    joined_table = db.query(Sikaku, Sikaku.exam_id, Exam.exam_name, Sikaku.passed_date).join(Exam, Sikaku.exam_id == Exam.exam_id)
+    return joined_table
 
 @app.get("/{ID}")
 def get_passed_item(ID:str,token:str):
