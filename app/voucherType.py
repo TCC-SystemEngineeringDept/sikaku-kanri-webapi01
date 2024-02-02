@@ -20,15 +20,24 @@ voucherTypes = [
 @app.get("/list")
 def get_voucher_type_list(token:str,db: Session = Depends(get_db)):
     vname = db.query(VoucherType).all()
-    return vname
+
+    if len(vname) == 0:
+        return {}
+
+    # 返却用のリストに変換して返却
+    return_list = []
+    for r in vname:
+        return_list.append({"ID": r.voucher_id, "NAME": r.voucher_name})
+
+    return return_list
 
 @app.get("/{ID}")
 def get_voucher_type_item(ID:str,token:str,db: Session = Depends(get_db)):
-    Voucher_Info = db.query(VoucherType).get(ID)
-    if(Voucher_Info is None):
-        return{}
+    voucher_info = db.query(VoucherType).get(ID)
+    if voucher_info is None:
+        return {}
     else:
-        return Voucher_Info
+        return {"ID": voucher_info.voucher_id, "NAME": voucher_info.voucher_name}
 
 @app.post("/add")
 def get_voucherType_item(ID:str,NAME:str,token:str, db: Session = Depends(get_db)):
