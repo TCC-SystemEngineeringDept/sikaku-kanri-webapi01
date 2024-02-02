@@ -31,7 +31,7 @@ def get_voucher_list(token:str,db: Session = Depends(get_db)):
 
 @app.get("/{ID}")
 def get_voucher_item(ID:str,token:str,db: Session = Depends(get_db)):
-    joined_table = db.query(Voucher, Voucher.exam_id, VoucherType.exam_name, Voucher.limit_date).join(Exam, Sikaku.exam_id == Exam.exam_id).filter(Sikaku.exam_id == ID).all()
+    joined_table = db.query(Voucher, Voucher.exam_id, VoucherType.exam_name, Voucher.limit_date).join(VoucherType, Voucher.exam_id == voucherType.exam_id).filter(Voucher.exam_id == ID).all()
 
     if len(joined_table) == 0:
         return {}
