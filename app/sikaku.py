@@ -25,7 +25,7 @@ def get_passed_list(token:str, db: Session = Depends(get_db)):
     # 返却用のリストに変換して返却
     return_list = []
     for r in joined_table:
-        return_list.append({"ID": r.exam_id, "NAME": r.exam_name, "DATE": r.passed_date})
+        return_list.append({"ID": r.exam_id, "NAME": r.exam_name, "DATE": f"{r.passed_date:%Y/%m/%d}"})
     
     return return_list
 
