@@ -39,7 +39,7 @@ def get_exam_item(ID:str,token:str,db: Session = Depends(get_db)):
 def add_exam_item(ID:str,NAME:str,token:str,db: Session = Depends(get_db)):
     new_item = Exam(exam_id=ID,exam_name=NAME)
     if(ID is None or NAME is None):
-        return {"message": "Exam added successfully", "exam": {"ID": "FE00", "NAME": "基本情報技術者試験"}}
+        return {"message": "Exam added successfully", "exam": {"ID": new_item.exam_id, "NAME": new_item.exam_name}}
     else:
         db.add(new_item)
         db.commit()
