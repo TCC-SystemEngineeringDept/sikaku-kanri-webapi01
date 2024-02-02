@@ -21,7 +21,7 @@ def get_db():
 @app.get("/list")
 def get_passed_list(token:str, db: Session = Depends(get_db)):
     joined_table = db.query(Sikaku, Sikaku.exam_id, Exam.exam_name, Sikaku.passed_date).join(Exam, Sikaku.exam_id == Exam.exam_id).all()
-    return dict(joined_table)
+    return joined_table
 
 @app.get("/{ID}")
 def get_passed_item(ID:str,token:str, db: Session = Depends(get_db)):
