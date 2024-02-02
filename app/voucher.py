@@ -36,7 +36,7 @@ def get_voucher_item(ID:str,token:str,db: Session = Depends(get_db)):
 
 @app.post("/add")
 def add_voucher_item(ID: str,DATE:str,token:str,db: Session = Depends(get_db)):
-    DATE = datetime.datetime.strptime(DATE, "%Y-%m-%d")
+    DATE = datetime.datetime.strptime(DATE, "%Y/%m/%d")
     new_items = Voucher(voucher_id=ID, user_id="001", limit_date=DATE)
     if(ID is None or DATE is None):
         #kuuhakutoosanaisyorituika
